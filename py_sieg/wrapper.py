@@ -102,14 +102,20 @@ class xmls(auth):
         "CFe": 5,
     }
 
-    def _fmt_date(self, d, end_of_day=False):
+    def _fmt_date(self, d, end_of_day=False, date_only=False):
         if isinstance(d, datetime):
+            if date_only:
+                return d.date().isoformat()
             return d.isoformat()
         if isinstance(d, date):
+            if date_only:
+                return d.isoformat()
             time_part = "23:59:59" if end_of_day else "00:00:00"
             return f"{d.isoformat()}T{time_part}"
         s = str(d)
         if len(s) == 10:
+            if date_only:
+                return s
             time_part = "23:59:59" if end_of_day else "00:00:00"
             return f"{s}T{time_part}"
         return s
@@ -142,10 +148,12 @@ class xmls(auth):
         return {}
 
     def baixar(self, date_start, date_end, xml_type, take=None, skip=None, decode=False, **kwargs):
+        tipo = self._resolve_xml_type(xml_type)
+        date_only = tipo == self.XML_TYPES["NFSe"]
         body = {
-            "DataEmissaoInicio": self._fmt_date(date_start),
-            "DataEmissaoFim": self._fmt_date(date_end, end_of_day=True),
-            "TipoXml": self._resolve_xml_type(xml_type),
+            "DataEmissaoInicio": self._fmt_date(date_start, date_only=date_only),
+            "DataEmissaoFim": self._fmt_date(date_end, end_of_day=not date_only, date_only=date_only),
+            "TipoXml": tipo,
         }
 
         if take is not None:
@@ -171,10 +179,12 @@ class xmls(auth):
         return response.content
 
     def baixar_eventos(self, date_start, date_end, xml_type, tipo_evento=None, take=None, skip=None, decode=False, **kwargs):
+        tipo = self._resolve_xml_type(xml_type)
+        date_only = tipo == self.XML_TYPES["NFSe"]
         body = {
-            "DataInicioEvento": self._fmt_date(date_start),
-            "DataFimEvento": self._fmt_date(date_end, end_of_day=True),
-            "TipoXml": self._resolve_xml_type(xml_type),
+            "DataInicioEvento": self._fmt_date(date_start, date_only=date_only),
+            "DataFimEvento": self._fmt_date(date_end, end_of_day=not date_only, date_only=date_only),
+            "TipoXml": tipo,
         }
 
         if tipo_evento is not None:
