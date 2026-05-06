@@ -1,0 +1,7 @@
+venv/
+tests/
+*test*
+*.pyc
+.directory
+python_sieg_api_antiga
+estudos/

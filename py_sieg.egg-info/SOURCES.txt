@@ -1,0 +1,10 @@
+LICENSE
+README.md
+setup.py
+py_sieg/__init__.py
+py_sieg/wrapper.py
+py_sieg.egg-info/PKG-INFO
+py_sieg.egg-info/SOURCES.txt
+py_sieg.egg-info/dependency_links.txt
+py_sieg.egg-info/requires.txt
+py_sieg.egg-info/top_level.txt
