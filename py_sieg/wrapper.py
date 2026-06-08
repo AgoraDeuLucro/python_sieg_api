@@ -178,6 +178,29 @@ class xmls(auth):
             return self._extract_zip(response.content)
         return response.content
 
+    def baixar_por_chave(self, chave_xml, xml_type, baixar_eventos=False, decode=False, **kwargs):
+        body = {
+            "ChaveXml": chave_xml,
+            "TipoXml": self._resolve_xml_type(xml_type),
+            "BaixarEventos": baixar_eventos,
+        }
+        body.update(kwargs)
+
+        response = self.request("api/v1/baixar-xml", body)
+
+        if response is None or response.status_code == 404:
+            return [] if decode else b""
+        if response.status_code == 504:
+            if self.print_error:
+                print("Gateway Time-out ao baixar XML pela chave.")
+            return [] if decode else b""
+        if response.status_code != 200:
+            return [] if decode else b""
+
+        if decode:
+            return self._extract_zip(response.content)
+        return response.content
+
     def baixar_eventos(self, date_start, date_end, xml_type, tipo_evento=None, take=None, skip=None, decode=False, **kwargs):
         tipo = self._resolve_xml_type(xml_type)
         date_only = tipo == self.XML_TYPES["NFSe"]
