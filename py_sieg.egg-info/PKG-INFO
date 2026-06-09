@@ -1,23 +1,15 @@
-Metadata-Version: 2.4
-Name: py_sieg
-Version: 0.0.3
+Metadata-Version: 2.1
+Name: py-sieg
+Version: 0.0.4
 Summary: Wrapper não oficial do Sieg
+Home-page: UNKNOWN
 Author: Yuri Gomes
 Author-email: yurialdegomes@gmail.com
 License: MIT License
 Keywords: sieg
+Platform: UNKNOWN
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: requests
-Dynamic: author
-Dynamic: author-email
-Dynamic: description
-Dynamic: description-content-type
-Dynamic: keywords
-Dynamic: license
-Dynamic: license-file
-Dynamic: requires-dist
-Dynamic: summary
 
 # python_sieg_api
  
@@ -134,3 +126,4 @@ Ou para criar um repositório oficial:
 ```plain
 twine upload dist/*
 ```
+
